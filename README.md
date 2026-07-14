@@ -3,7 +3,7 @@
 A single-file personal/academic website. Everything (HTML, styles, and
 scripts) lives in **`index.html`**, so editing and deploying is simple.
 
-Live site: **https://naosher98.github.io/website/**
+Live site: **https://naosher98.github.io/NMA_website/**
 
 ---
 
