@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ============================================================
+    META & PAGE SETUP
+    - charset: lets the browser display all characters/languages
+    - viewport: makes the site look right on phones and tablets
+    - description: shows in Google results — keep under ~160 chars
+    - author: your name, used by search engines
+    To edit: change the content="..." values below.
+  ============================================================ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Naosher Mustakim — Engineer & Researcher in deep learning and biomedical imaging. PhD applicant." />
+  <meta name="author" content="Naosher Mustakim" />
+  <title>Naosher Mustakim</title>
+
+  <!-- ============================================================
+    FONTS  (Google Fonts — free, loaded from the web, no download)
+    - "DM Serif Display": elegant serif used for headings
+    - "DM Sans": clean sans-serif used for body text
+    - "JetBrains Mono": monospace used for small labels/badges
+    To change fonts: pick new ones at fonts.google.com and
+    replace the URL on the <link> tag below.
+  ============================================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- ============================================================
+    ICONS (Font Awesome — free icon library, loaded from the web)
+    Usage examples:
+      <i class="fas fa-envelope"></i>   solid icon
+      <i class="fab fa-github"></i>     brand logo
+    Browse all icons at: fontawesome.com/icons
+  ============================================================ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- ============================================================
+    ALL STYLES
+    Everything visual lives inside this one <style> block,
+    organised into clearly labelled sections so you can find
+    things quickly.
+  ============================================================ -->
+  <style>
+
+    /* ----------------------------------------------------------
+      1. DESIGN TOKENS (site-wide settings)
+      Change a value here and it updates everywhere at once.
+      ----------------------------------------------------------
+      COLORS:
+        --ink         main text color
+        --paper       page background
+        --accent      teal highlight color
+        --accent-warm warm orange secondary accent
+      FONTS:
+        --font-display headings
+        --font-body    paragraphs / nav
+        --font-mono    small labels / badges
+    ---------------------------------------------------------- */
+    :root {
+      /* Colors */
+      --ink:          #1a1a1a;
+      --ink-light:    #555;
+      --ink-muted:    #888;
+      --paper:        #f7f4ef;
+      --paper-warm:   #edeae3;
+      --card:         #ffffff;
+      --accent:       #448EE4;    /* blue — change to any hex value */
+      --accent-light: #e6f0fb;
+      --accent-warm:  #c8763e;    /* warm orange — used for badges */
+      --border:       #ddd8cf;
+
+      /* Fonts */
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+
+      /* Spacing scale (each step = multiples of 4px) */
+      --space-1:  4px;   --space-2:  8px;   --space-3:  12px;
+      --space-4:  16px;  --space-5:  20px;  --space-6:  24px;
+      --space-8:  32px;  --space-10: 40px;  --space-12: 48px;
+      --space-16: 64px;
+
+      /* Sizes */
+      --max-width: 880px;  /* maximum content width */
+      --radius:    6px;    /* corner rounding */
+    }
+
+    /* ----------------------------------------------------------
+      2. RESET & BASE — clears inconsistent browser defaults
+    ---------------------------------------------------------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    img { max-width: 100%; display: block; }
+    a   { color: var(--accent); text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: 0.75; }
+
+    /* ----------------------------------------------------------
+      3. LAYOUT HELPERS
+    ---------------------------------------------------------- */
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+    .section { padding: var(--space-12) 0; }
+
+    /* ----------------------------------------------------------
+      4. NAVIGATION BAR (sticky top bar)
+      TO ADD A LINK: copy one <li> in the HTML below.
+    ---------------------------------------------------------- */
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(247, 244, 239, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .navbar-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: var(--space-4) var(--space-6);
+      max-width: var(--max-width); margin: 0 auto;
+    }
+    .navbar-brand {
+      font-family: var(--font-display);
+      font-size: 1.1rem; color: var(--ink); letter-spacing: -.01em;
+    }
+    .navbar-brand span { color: var(--accent); }
+
+    .navbar-links {
+      list-style: none; display: flex; gap: var(--space-5); align-items: center;
+    }
+    .navbar-links a {
+      font-family: var(--font-mono);
+      font-size: 0.76rem; color: var(--ink-light);
+      text-transform: lowercase; letter-spacing: .04em;
+      position: relative; padding-bottom: 2px;
+    }
+    .navbar-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 1px; background: var(--accent);
+      transition: width .25s ease;
+    }
+    .navbar-links a:hover::after,
+    .navbar-links a.active::after { width: 100%; }
+    .navbar-links a.active { color: var(--accent); opacity: 1; }
+
+    .navbar-toggle {
+      display: none; background: none; border: none; cursor: pointer;
+      flex-direction: column; gap: 5px; padding: 4px;
+    }
+    .navbar-toggle span {
+      display: block; width: 22px; height: 2px; background: var(--ink);
+      transition: transform .3s, opacity .3s;
+    }
+
+    /* ----------------------------------------------------------
+      5. HERO SECTION (name + photo at the top)
+      KEY EDITS:
+        - photo path in <img src="...">
+        - your name in <h1>
+        - the bio paragraph
+        - social link hrefs
+    ---------------------------------------------------------- */
+    .hero { padding: var(--space-16) 0 var(--space-12); border-bottom: 1px solid var(--border); }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 220px;
+      gap: var(--space-10); align-items: start;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent);
+      letter-spacing: .1em; text-transform: uppercase; margin-bottom: var(--space-3);
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 3.4rem);
+      line-height: 1.1; letter-spacing: -.02em; color: var(--ink);
+      margin-bottom: var(--space-4);
+    }
+    .hero-title {
+      font-size: 1rem; font-weight: 400; color: var(--ink-light);
+      margin-bottom: var(--space-5); display: flex; align-items: center; gap: var(--space-3);
+    }
+    .hero-title::before {
+      content: ''; display: inline-block; width: 28px; height: 1px; background: var(--ink-light);
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: var(--space-4); margin-bottom: var(--space-6);
+      font-size: 0.85rem; color: var(--ink-muted);
+    }
+    .hero-meta-item { display: flex; align-items: center; gap: var(--space-2); }
+    .hero-meta-item i { color: var(--accent); font-size: 0.8rem; }
+    .hero-bio {
+      font-size: 0.97rem; color: var(--ink-light); line-height: 1.8;
+      margin-bottom: var(--space-6); max-width: 56ch;
+    }
+    /* Row holding the PhD badge and CV link side by side */
+    .hero-status-row {
+      display: flex; align-items: center; flex-wrap: wrap;
+      gap: var(--space-3); margin-bottom: var(--space-6);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: var(--accent-warm); color: #fff;
+      font-size: 0.75rem; font-family: var(--font-mono); font-weight: 500;
+      padding: var(--space-2) var(--space-4); border-radius: 2px;
+      letter-spacing: .04em;
+      animation: pulse-badge 3s ease-in-out infinite;
+    }
+    @keyframes pulse-badge {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(200, 118, 62, 0.4); }
+      50%       { box-shadow: 0 0 0 6px rgba(200, 118, 62, 0); }
+    }
+
+    /* CV link — same pill design as the PhD badge, but teal.
+       TO CHANGE ITS COLOR: edit the background below and the two
+       rgba() values in the pulse-cv keyframes (use the same color). */
+    .hero-cv-link {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: var(--accent); color: #fff;
+      font-size: 0.75rem; font-family: var(--font-mono); font-weight: 500;
+      padding: var(--space-2) var(--space-4); border-radius: 2px;
+      letter-spacing: .04em;
+      animation: pulse-cv 3s ease-in-out infinite;
+    }
+    .hero-cv-link:hover { opacity: 1; color: #fff; }
+    .hero-cv-link i { font-size: 0.78rem; }
+    @keyframes pulse-cv {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(68, 142, 228, 0.4); }
+      50%       { box-shadow: 0 0 0 6px rgba(68, 142, 228, 0); }
+    }
+
+    .social-icons { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+    .social-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px; border: 1px solid var(--border); border-radius: 50%;
+      color: var(--ink-light); font-size: 0.9rem; transition: all .2s ease; background: var(--card);
+    }
+    .social-icon:hover {
+      border-color: var(--accent); color: var(--accent); background: var(--accent-light);
+      opacity: 1; transform: translateY(-2px);
+    }
+    .hero-photo-wrap { position: relative; }
+    .hero-photo { width: 100%; border-radius: var(--radius); box-shadow: 6px 6px 0 var(--accent); }
+    /* Small caption under the photo */
+    .hero-photo-caption {
+      display: block; font-family: var(--font-mono); font-size: 0.62rem;
+      color: var(--ink-muted); letter-spacing: .06em; margin-top: var(--space-3); text-align: center;
+    }
+
+    /* ----------------------------------------------------------
+      6. SHARED SECTION HEADINGS (used by every section below)
+    ---------------------------------------------------------- */
+    .section-label {
+      font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: var(--space-3);
+    }
+    .section-heading {
+      font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--ink); line-height: 1.2; margin-bottom: var(--space-6);
+    }
+    .section-divider { width: 40px; height: 2px; background: var(--accent); margin-bottom: var(--space-8); }
+
+    /* Smaller sub-heading used inside the Hobbies section */
+    .subsection-title {
+      display: flex; align-items: center; gap: var(--space-3);
+      font-family: var(--font-display); font-size: 1.25rem; color: var(--ink);
+      margin: var(--space-10) 0 var(--space-5);
+    }
+    .subsection-title i { color: var(--accent); font-size: 1rem; }
+    .subsection-title:first-of-type { margin-top: 0; }
+
+    /* ----------------------------------------------------------
+      7. RESEARCH INTERESTS CARDS
+      TO ADD A CARD: copy one .interest-card block.
+    ---------------------------------------------------------- */
+    .interests-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4);
+    }
+    .interest-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: var(--space-5); transition: all .2s ease; position: relative; overflow: hidden;
+    }
+    .interest-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--accent); transform: scaleY(0); transition: transform .2s ease;
+    }
+    .interest-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .interest-card:hover::before { transform: scaleY(1); }
+    .interest-icon { font-size: 1.3rem; color: var(--accent); margin-bottom: var(--space-3); }
+    .interest-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: var(--space-1); }
+    .interest-desc { font-size: 0.8rem; color: var(--ink-muted); line-height: 1.5; }
+
+    /* ----------------------------------------------------------
+      8. EDUCATION TIMELINE
+      TO ADD AN ENTRY: copy one .timeline-entry block.
+    ---------------------------------------------------------- */
+    .timeline { position: relative; padding-left: var(--space-8); }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 1px; background: var(--border);
+    }
+    .timeline-entry { position: relative; margin-bottom: var(--space-8); }
+    .timeline-entry::before {
+      content: ''; position: absolute; left: calc(-1 * var(--space-8) - 4px); top: 8px;
+      width: 9px; height: 9px; border-radius: 50%; background: var(--card); border: 2px solid var(--accent);
+    }
+    .timeline-year { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); letter-spacing: .06em; margin-bottom: var(--space-1); }
+    .timeline-title { font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: var(--space-1); }
+    .timeline-sub { font-size: 0.88rem; color: var(--ink-light); margin-bottom: var(--space-2); }
+    .timeline-desc { font-size: 0.85rem; color: var(--ink-muted); line-height: 1.6; }
+
+    /* ----------------------------------------------------------
+      9. PUBLICATIONS
+      TO ADD A PAPER: copy one .pub-card block.
+    ---------------------------------------------------------- */
+    .pub-list { display: flex; flex-direction: column; gap: var(--space-5); }
+    .pub-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: var(--space-5) var(--space-6); display: grid;
+      grid-template-columns: 1fr auto; gap: var(--space-3) var(--space-6);
+      align-items: start; transition: border-color .2s;
+    }
+    .pub-card:hover { border-color: var(--accent); }
+    .pub-title { font-size: 0.95rem; font-weight: 500; color: var(--ink); grid-column: 1; }
+    .pub-year {
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent);
+      background: var(--accent-light); padding: 2px 8px; border-radius: 2px;
+      grid-column: 2; white-space: nowrap; align-self: start;
+    }
+    .pub-venue { font-size: 0.82rem; font-style: italic; color: var(--accent); grid-column: 1 / -1; }
+    .pub-authors { font-size: 0.82rem; color: var(--ink-muted); grid-column: 1 / -1; }
+    .pub-authors strong { color: var(--ink-light); font-weight: 500; }
+    .pub-links { grid-column: 1 / -1; display: flex; gap: var(--space-3); flex-wrap: wrap; }
+    .pub-link {
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent);
+      border: 1px solid var(--accent); border-radius: 2px; padding: 2px 8px; transition: all .15s;
+    }
+    .pub-link:hover { background: var(--accent); color: #fff; opacity: 1; }
+    .pub-status {
+      font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent-warm);
+      border: 1px solid var(--accent-warm); border-radius: 2px; padding: 2px 8px;
+    }
+
+    /* ----------------------------------------------------------
+      9b. STANDARDIZED TESTS  (GRE, IELTS, etc.)
+      Each test is a card with a big total score and a row of
+      smaller sub-score tiles underneath.
+      TO ADD A TEST: copy one .test-card block in the HTML.
+    ---------------------------------------------------------- */
+    .test-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-5);
+    }
+    .test-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: var(--space-6); transition: border-color .2s;
+    }
+    .test-card:hover { border-color: var(--accent); }
+    /* Top row: test name on the left, total score on the right */
+    .test-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: var(--space-3); margin-bottom: var(--space-1);
+    }
+    .test-name { font-size: 1rem; font-weight: 500; color: var(--ink); }
+    .test-total {
+      font-family: var(--font-display); font-size: 2rem; color: var(--accent); line-height: 1;
+    }
+    .test-total small {
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-muted); font-weight: 400;
+    }
+    .test-date { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-muted); letter-spacing: .04em; margin-bottom: var(--space-4); }
+    /* Sub-score tiles (e.g. Verbal / Quant / Writing) */
+    .test-breakdown {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+      gap: var(--space-2); border-top: 1px solid var(--border); padding-top: var(--space-4);
+    }
+    .test-sub { text-align: center; }
+    .test-sub-num { font-size: 1rem; font-weight: 600; color: var(--ink); }
+    .test-sub-label {
+      font-family: var(--font-mono); font-size: 0.62rem; color: var(--ink-muted);
+      text-transform: uppercase; letter-spacing: .04em; margin-top: 2px;
+    }
+
+    /* ----------------------------------------------------------
+      9c. WORK EXPERIENCE / JOBS
+      Reuses the same vertical timeline look as Education, but with
+      a separate class so you can style them independently if needed.
+      TO ADD A JOB: copy one .job-entry block in the HTML.
+    ---------------------------------------------------------- */
+    .job-timeline { position: relative; padding-left: var(--space-8); }
+    .job-timeline::before {
+      content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 1px; background: var(--border);
+    }
+    .job-entry { position: relative; margin-bottom: var(--space-8); }
+    .job-entry::before {
+      content: ''; position: absolute; left: calc(-1 * var(--space-8) - 4px); top: 8px;
+      width: 9px; height: 9px; border-radius: 50%; background: var(--card); border: 2px solid var(--accent-warm);
+    }
+    .job-year { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-warm); letter-spacing: .06em; margin-bottom: var(--space-1); }
+    .job-role { font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: var(--space-1); }
+    .job-org { font-size: 0.88rem; color: var(--ink-light); margin-bottom: var(--space-2); }
+    .job-org span { color: var(--accent); }
+    .job-desc { font-size: 0.85rem; color: var(--ink-muted); line-height: 1.6; }
+    /* Optional skill/tool tags under a job */
+    .job-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+    .job-tag {
+      font-family: var(--font-mono); font-size: 0.66rem; color: var(--ink-light);
+      background: var(--paper-warm); border: 1px solid var(--border);
+      border-radius: 2px; padding: 2px 8px;
+    }
+
+    /* ----------------------------------------------------------
+      9d. TECHNICAL SKILLS
+      Grouped skill chips under category headings.
+      TO ADD A GROUP: copy one .skill-group block.
+      TO ADD A SKILL: add a <span class="skill-chip"> inside a group.
+    ---------------------------------------------------------- */
+    .skill-group { margin-bottom: var(--space-6); }
+    .skill-group:last-child { margin-bottom: 0; }
+    .skill-group-label {
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: var(--space-3);
+    }
+    .skill-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .skill-chip {
+      font-size: 0.8rem; color: var(--ink-light);
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: var(--space-2) var(--space-3);
+      transition: all .15s;
+    }
+    .skill-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ============================================================
+      10. HOBBIES SECTION STYLES  (NEW)
+      Contains: Books, Movies, Football, Cricket, Chess.
+      Each uses its own little card layout — all explained below.
+    ============================================================ */
+
+    /* ---- 10a. BOOKS — small "shelf" of book cards ----
+       TO ADD A BOOK: copy one .book-card block in the HTML.
+       The colored spine top is decorative; change its color
+       by editing the inline style="--spine: #color" on each card.
+    ---- */
+    .book-shelf {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-4);
+    }
+    .book-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: var(--space-4); position: relative; overflow: hidden;
+      transition: transform .2s, border-color .2s;
+    }
+    .book-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    /* The colored "spine" strip at the top of each book card */
+    .book-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+      background: var(--spine, var(--accent));   /* default teal if no --spine set */
+    }
+    .book-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-top: var(--space-2); line-height: 1.35; }
+    .book-author { font-size: 0.78rem; color: var(--ink-muted); margin-top: var(--space-1); font-style: italic; }
+    /* Optional little "currently reading" / "favourite" tag */
+    .book-tag {
+      display: inline-block; font-family: var(--font-mono); font-size: 0.62rem;
+      color: var(--accent); background: var(--accent-light);
+      padding: 1px 6px; border-radius: 2px; margin-top: var(--space-3); letter-spacing: .04em;
+    }
+
+    /* ---- 10b. MOVIES — poster-style cards ----
+       TO ADD A MOVIE: copy one .movie-card block.
+       To use a real poster image, replace the .movie-poster div's
+       background with an <img>, or set a background-image.
+    ---- */
+    .movie-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: var(--space-4);
+    }
+    .movie-card { text-align: center; }
+    /* The poster box. Replace the gradient with your own image:
+       style="background-image:url('images/movie.jpg'); background-size:cover" */
+    .movie-poster {
+      aspect-ratio: 2 / 3;            /* standard movie-poster shape */
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--accent) 0%, #2a5f9e 100%);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.85); font-size: 1.8rem;
+      transition: transform .2s; overflow: hidden;
+    }
+    .movie-card:hover .movie-poster { transform: scale(1.03); }
+    .movie-title { font-size: 0.82rem; font-weight: 500; color: var(--ink); margin-top: var(--space-2); }
+    .movie-meta  { font-size: 0.72rem; color: var(--ink-muted); }
+
+    /* ---- 10c. TEAMS (Football & Cricket) — team badge rows ----
+       TO ADD A TEAM: copy one .team-card block.
+       The crest is a colored circle with initials — swap it for a
+       real logo by replacing .team-crest contents with an <img>.
+    ---- */
+    .team-row {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--space-4);
+    }
+    .team-card {
+      display: flex; align-items: center; gap: var(--space-3);
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: var(--space-4);
+      transition: transform .2s, border-color .2s;
+    }
+    .team-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+    /* Colored circle holding the team initials.
+       Set the color per team with style="--crest:#color" */
+    .team-crest {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      background: var(--crest, var(--accent)); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500;
+    }
+    .team-name { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+    .team-note { font-size: 0.72rem; color: var(--ink-muted); }
+
+    /* ---- 10d. CHESS — stat tiles + profile link ----
+       TO EDIT: change the numbers/labels in the .chess-stat tiles
+       and the profile links below them.
+    ---- */
+    .chess-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); align-items: center;
+    }
+    .chess-stats { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+    .chess-stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: var(--space-4); text-align: center;
+    }
+    .chess-stat-num {
+      font-family: var(--font-display); font-size: 1.6rem; color: var(--accent); line-height: 1;
+    }
+    .chess-stat-label {
+      font-family: var(--font-mono); font-size: 0.66rem; color: var(--ink-muted);
+      text-transform: uppercase; letter-spacing: .06em; margin-top: var(--space-2);
+    }
+    .chess-text { font-size: 0.9rem; color: var(--ink-light); line-height: 1.7; }
+    .chess-links { display: flex; gap: var(--space-3); margin-top: var(--space-4); flex-wrap: wrap; }
+    .chess-link {
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent);
+      border: 1px solid var(--accent); border-radius: 2px; padding: 4px 10px; transition: all .15s;
+    }
+    .chess-link:hover { background: var(--accent); color: #fff; opacity: 1; }
+
+    /* ----------------------------------------------------------
+      11. CONTACT SECTION
+    ---------------------------------------------------------- */
+    .contact-box {
+      background: var(--ink); color: #fff; border-radius: var(--radius);
+      padding: var(--space-10) var(--space-8); display: grid;
+      grid-template-columns: 1fr 1fr; gap: var(--space-8); align-items: center;
+    }
+    .contact-heading {
+      font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.2rem);
+      line-height: 1.2; color: #fff; margin-bottom: var(--space-3);
+    }
+    .contact-sub { font-size: 0.9rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+    .contact-list { list-style: none; display: flex; flex-direction: column; gap: var(--space-4); }
+    .contact-item { display: flex; align-items: center; gap: var(--space-4); }
+    .contact-item-icon {
+      width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: rgba(255,255,255,0.7); flex-shrink: 0;
+    }
+    .contact-item-label {
+      font-size: 0.72rem; font-family: var(--font-mono); color: rgba(255,255,255,0.4);
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px;
+    }
+    .contact-item-value { font-size: 0.88rem; color: rgba(255,255,255,0.85); }
+    .contact-item-value a { color: inherit; }
+    .contact-item-value a:hover { opacity: 0.7; }
+
+    /* ----------------------------------------------------------
+      12. FOOTER
+    ---------------------------------------------------------- */
+    .footer { margin-top: auto; border-top: 1px solid var(--border); padding: var(--space-6) 0; }
+    .footer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.8rem; color: var(--ink-muted); font-family: var(--font-mono);
+    }
+
+    /* ----------------------------------------------------------
+      13. RESPONSIVE (MOBILE) STYLES — screens under 680px
+    ---------------------------------------------------------- */
+    @media (max-width: 680px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-photo-wrap { order: -1; max-width: 180px; }
+      .navbar-toggle { display: flex; }
+      .navbar-links {
+        display: none; flex-direction: column; gap: var(--space-4);
+        padding: var(--space-5) var(--space-6); background: var(--paper);
+        border-top: 1px solid var(--border);
+        position: absolute; top: 100%; left: 0; right: 0;
+      }
+      .navbar-links.open { display: flex; }
+      .contact-box { grid-template-columns: 1fr; }
+      .chess-wrap  { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: var(--space-2); text-align: center; }
+    }
+
+    /* ----------------------------------------------------------
+      14. SCROLL FADE-IN ANIMATION
+      Sections gently fade up as they enter view.
+      To disable: remove this block + the matching JS at the bottom.
+    ---------------------------------------------------------- */
+    .fade-in { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+    NAVIGATION BAR
+    TO ADD A LINK: copy a <li> and update its href + text.
+    The href "#id" jumps to the section with that id.
+  ============================================================ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">Naosher <span>Mustakim</span></a>
+
+      <button class="navbar-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="navbar-links" id="navLinks">
+        <li><a href="#about" class="active">about</a></li>
+        <li><a href="#research">research</a></li>
+        <li><a href="#education">education</a></li>
+        <li><a href="#publications">publications</a></li>
+        <li><a href="#experience">experience</a></li>
+        <li><a href="#skills">skills</a></li>
+        <li><a href="#hobbies">hobbies</a></li>
+        <li><a href="pages/CV/index.html">cv</a></li>
+        <li><a href="#contact">contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <main>
+    <!-- ============================================================
+      HERO SECTION  (#about)
+      EDIT: photo path, name, title, bio, social link hrefs.
+    ============================================================ -->
+    <section id="about" class="hero" aria-label="About me">
+      <div class="container">
+        <div class="hero-grid">
+
+          <div class="hero-text">
+            <p class="hero-eyebrow">Engineer · Researcher</p>
+            <h1 class="hero-name">Naosher <em>Mustakim</em></h1>
+            <p class="hero-title">Biomedical AI &amp; Medical Imaging Researcher</p>
+
+            <div class="hero-meta">
+              <span class="hero-meta-item">
+                <i class="fas fa-location-dot" aria-hidden="true"></i>
+                Chattogram, Bangladesh
+              </span>
+              <span class="hero-meta-item">
+                <i class="fas fa-envelope" aria-hidden="true"></i>
+                <a href="mailto:naosher.mustakim@gmail.com">naosher.mustakim@gmail.com</a>
+              </span>
+            </div>
+
+            <!-- PhD badge + CV link, side by side -->
+            <div class="hero-status-row">
+              <!-- PhD badge — delete this div to remove it -->
+              <div class="hero-badge" role="status">
+                <i class="fas fa-circle-dot" aria-hidden="true"></i>
+                Actively seeking PhD admission
+              </div>
+
+              <!-- ====================================================
+                CV LINK (next to PhD badge) — EDIT HERE
+                Change the href to wherever your CV file lives in the repo,
+                e.g. "pages/CV.pdf" or "CV.pdf". The path is case-sensitive
+                on GitHub Pages, so match the filename exactly.
+                To remove this link, delete the whole <a> below.
+              ===================================================== -->
+              <a href="pages/CV.pdf" class="hero-cv-link" target="_blank" rel="noopener">
+                <i class="fas fa-file-arrow-down" aria-hidden="true"></i>
+                Download CV
+              </a>
+            </div>
+
+            <p class="hero-bio">
+              I am a dedicated and curious researcher with a background in
+              biomedical physics and electrical engineering, focused on
+              statistical machine learning and deep learning for medical
+              imaging. I am passionate about advancing knowledge and making
+              meaningful contributions through rigorous experimentation, data
+              analysis, and critical thinking. I am currently seeking a PhD
+              position where I can drive impactful discoveries and grow as a
+              scientist.
+            </p>
+
+            <!-- Social icons — add/remove <a> tags as needed -->
+            <div class="social-icons" aria-label="Social links">
+              <a href="mailto:naosher.mustakim@gmail.com" class="social-icon" title="Email" aria-label="Send email"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+              <a href="https://scholar.google.com/citations?user=qc6CJjYAAAAJ" class="social-icon" title="Google Scholar" aria-label="Google Scholar" target="_blank" rel="noopener"><i class="fas fa-graduation-cap" aria-hidden="true"></i></a>
+              <a href="https://www.linkedin.com/in/naosher-mustakim/" class="social-icon" title="LinkedIn" aria-label="LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+              <a href="https://github.com/naosher-mustakim" class="social-icon" title="GitHub" aria-label="GitHub" target="_blank" rel="noopener"><i class="fab fa-github" aria-hidden="true"></i></a>
+              <a href="tel:+8801644614303" class="social-icon" title="Phone" aria-label="Phone"><i class="fas fa-phone" aria-hidden="true"></i></a>
+            </div>
+          </div>
+
+          <!-- Profile photo — change src to your image path -->
+          <div class="hero-photo-wrap">
+            <img src="images/prof_pic-480.webp" alt="Portrait of Naosher Mustakim"
+                 class="hero-photo" width="220" height="280" loading="eager"
+                 onerror="this.style.background='#e8e5df'; this.style.minHeight='280px';" />
+
+            <!-- Caption under the photo -->
+            <span class="hero-photo-caption">Naosher Mustakim · 2025</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+      RESEARCH INTERESTS  (#research)
+      TO ADD A CARD: copy one .interest-card block.
+    ============================================================ -->
+    <section id="research" class="section fade-in" aria-labelledby="research-heading">
+      <div class="container">
+        <p class="section-label">Focus areas</p>
+        <h2 class="section-heading" id="research-heading">Research Interests</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+
+        <div class="interests-grid">
+          <div class="interest-card">
+            <div class="interest-icon" aria-hidden="true"><i class="fas fa-brain"></i></div>
+            <p class="interest-title">Deep Learning</p>
+            <p class="interest-desc">CNN, attention, and LSTM architectures for medical and physiological signal data.</p>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon" aria-hidden="true"><i class="fas fa-microscope"></i></div>
+            <p class="interest-title">Medical Imaging</p>
+            <p class="interest-desc">Retinal fundus and fNIRS analysis, disease-stage classification, and clinical decision support.</p>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon" aria-hidden="true"><i class="fas fa-lightbulb"></i></div>
+            <p class="interest-title">Explainable AI</p>
+            <p class="interest-desc">SHAP and interpretability methods for trustworthy models in healthcare.</p>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon" aria-hidden="true"><i class="fas fa-chart-line"></i></div>
+            <p class="interest-title">Statistical Machine Learning</p>
+            <p class="interest-desc">Feature engineering, model evaluation, and prediction on small, imbalanced datasets.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+      EDUCATION  (#education)
+      TO ADD AN ENTRY: copy one .timeline-entry block.
+    ============================================================ -->
+    <section id="education" class="section fade-in" aria-labelledby="education-heading">
+      <div class="container">
+        <p class="section-label">Academic background</p>
+        <h2 class="section-heading" id="education-heading">Education</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+
+        <div class="timeline">
+          <div class="timeline-entry">
+            <p class="timeline-year">May 2023 – Oct 2024</p>
+            <p class="timeline-title">M.S. in Biomedical Physics &amp; Technology</p>
+            <p class="timeline-sub">University of Dhaka (DU), Dhaka, Bangladesh</p>
+            <p class="timeline-desc">GPA: 3.86 / 4.00. Thesis: deep learning for multi-label classification of bimanual clench-force fNIRS data, combining CNN, spectral attention, and LSTM layers with SHAP-based explainability.</p>
+          </div>
+          <div class="timeline-entry">
+            <p class="timeline-year">Mar 2017 – Aug 2022</p>
+            <p class="timeline-title">B.Sc. in Electrical &amp; Electronic Engineering</p>
+            <p class="timeline-sub">Chittagong University of Engineering &amp; Technology (CUET), Chattogram, Bangladesh</p>
+            <p class="timeline-desc">CGPA: 2.99 / 4.00. Thesis: design and fabrication of a wideband slot-loaded textile antenna for body-worn applications.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+      PUBLICATIONS  (#publications)
+      TO ADD A PAPER: copy one .pub-card block.
+    ============================================================ -->
+    <section id="publications" class="section fade-in" aria-labelledby="pub-heading">
+      <div class="container">
+        <p class="section-label">Research output</p>
+        <h2 class="section-heading" id="pub-heading">Publications</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+
+        <div class="pub-list">
+          <article class="pub-card">
+            <p class="pub-title">Explainable AI for Predicting Problematic Internet Use Among Bangladeshi Students: The Role of Loneliness, Low Self-Esteem, and Psychological Distress</p>
+            <span class="pub-year">2025</span>
+            <p class="pub-venue">PLOS One</p>
+            <p class="pub-authors"><strong>N. Mustakim</strong>, N. Muntashir, S. Muntaha, M. S. Azad, M. R. C. Mahdy</p>
+            <div class="pub-links">
+              <!-- EDIT: replace href="#" with the paper URL once published -->
+              <a href="#" class="pub-link" target="_blank" rel="noopener">Paper</a>
+              <span class="pub-status">In Review</span>
+            </div>
+          </article>
+
+          <article class="pub-card">
+            <p class="pub-title">An Explainable AI-based Deep Learning Model for Classification of Diabetic Retinopathy Stages Using Retinal Fundus Images</p>
+            <span class="pub-year">2024</span>
+            <p class="pub-venue">27th International Conference on Computer and Information Technology (ICCIT 2024)</p>
+            <p class="pub-authors">S. Muntaha, S. S. Salam, <strong>N. Mustakim</strong></p>
+            <div class="pub-links">
+              <!-- EDIT: replace href="#" with the IEEE Xplore / DOI link, and the PDF link -->
+              <a href="#" class="pub-link" target="_blank" rel="noopener">Paper</a>
+              <a href="#" class="pub-link" target="_blank" rel="noopener">PDF</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+      STANDARDIZED TESTS  (#tests)
+
+      TO ADD A TEST: copy one <div class="test-card"> block.
+      Each card has:
+        - .test-name      = test name (e.g. "GRE", "IELTS", "TOEFL")
+        - .test-total     = the big headline score
+        - .test-date      = when you took it
+        - .test-breakdown = sub-scores; add/remove .test-sub tiles
+      DELETE this whole <section> if you don't want to show scores.
+    ============================================================ -->
+    <section id="tests" class="section fade-in" aria-labelledby="tests-heading">
+      <div class="container">
+        <p class="section-label">Qualifications</p>
+        <h2 class="section-heading" id="tests-heading">Standardized Test Scores</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+
+        <div class="test-grid">
+
+          <!-- ===== GRE =====
+            EDIT the total (out of 340), date, and the three sub-scores.
+            GRE sub-scores: Verbal (130–170), Quant (130–170), AWA (0–6).
+          ===== -->
+          <div class="test-card">
+            <div class="test-head">
+              <span class="test-name">GRE</span>
+              <span class="test-total">330<small> / 340</small></span>
+            </div>
+            <p class="test-date">Taken: 2025</p>
+            <div class="test-breakdown">
+              <div class="test-sub">
+                <div class="test-sub-num">160</div>
+                <div class="test-sub-label">Verbal</div>
+              </div>
+              <div class="test-sub">
+                <div class="test-sub-num">170</div>
+                <div class="test-sub-label">Quant</div>
+              </div>
+              <div class="test-sub">
+                <div class="test-sub-num">4.5</div>
+                <div class="test-sub-label">Writing</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== IELTS =====
+            EDIT the overall band (out of 9), date, and four sub-scores.
+            IELTS sub-scores: Listening, Reading, Writing, Speaking.
+          ===== -->
+          <div class="test-card">
+            <div class="test-head">
+              <span class="test-name">IELTS</span>
+              <span class="test-total">7.5<small> / 9.0</small></span>
+            </div>
+            <p class="test-date">Taken: May 2025</p>
+            <div class="test-breakdown">
+              <div class="test-sub">
+                <div class="test-sub-num">8.0</div>
+                <div class="test-sub-label">Listen</div>
+              </div>
+              <div class="test-sub">
+                <div class="test-sub-num">7.5</div>
+                <div class="test-sub-label">Read</div>
+              </div>
+              <div class="test-sub">
+                <div class="test-sub-num">6.5</div>
+                <div class="test-sub-label">Write</div>
+              </div>
+              <div class="test-sub">
+                <div class="test-sub-num">7.0</div>
+                <div class="test-sub-label">Speak</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ADD MORE TESTS HERE (e.g. TOEFL, GATE) by copying a block above -->
+
+        </div><!-- /test-grid -->
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+      WORK EXPERIENCE  (#experience)
+
+      TO ADD A JOB: copy one <div class="job-entry"> block.
+      Each entry has:
+        - .job-year = date range (e.g. "Jan 2023 – Present")
+        - .job-role = your job title
+        - .job-org  = company/lab name (wrap the name in <span> to color it)
+        - .job-desc = what you did
+        - .job-tags = optional skill tags; add/remove .job-tag spans
+      List the most recent job first.
+    ============================================================ -->
+    <section id="experience" class="section fade-in" aria-labelledby="experience-heading">
+      <div class="container">
+        <p class="section-label">Professional</p>
+        <h2 class="section-heading" id="experience-heading">Work Experience</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+
+        <div class="job-timeline">
+
+          <!-- Job 1 — most recent -->
+          <div class="job-entry">
+            <p class="job-year">Mar 2024 – Present</p>
+            <p class="job-role">Electrical Engineer</p>
+            <p class="job-org">Bangladesh Steel Re-Rolling Mills Ltd (BSRM), <span>Chattogram</span></p>
+            <p class="job-desc">
+              Responsible for electrical maintenance of induction furnaces and
+              utilities. Experienced in control systems, power electronics, root
+              cause analysis, and problem solving.
+            </p>
+            <div class="job-tags">
+              <span class="job-tag">Control Systems</span>
+              <span class="job-tag">Power Electronics</span>
+              <span class="job-tag">Maintenance</span>
+            </div>
+          </div>
+
+          <!-- Job 2 -->
+          <div class="job-entry">
+            <p class="job-year">May 2024 – Present</p>
+            <p class="job-role">Collaborative Researcher</p>
+            <p class="job-org">Mahdy's Research Academy, <span>Supervisor: Dr. M. R. C. Mahdy</span></p>
+            <p class="job-desc">
+              Statistical machine learning and deep learning for medical imaging.
+              Completed 20+ sessions on foundational and advanced AI research,
+              ran hands-on experiments in medical image analysis, computer
+              vision, explainable AI, and AI safety, and reproduced results from
+              peer-reviewed research.
+            </p>
+            <div class="job-tags">
+              <span class="job-tag">PyTorch</span>
+              <span class="job-tag">TensorFlow</span>
+              <span class="job-tag">Explainable AI</span>
+            </div>
+          </div>
+
+          <!-- Job 3 -->
+          <div class="job-entry">
+            <p class="job-year">Jul 2021 – Aug 2021</p>
+            <p class="job-role">Junior Machine Learning Engineer (Volunteer)</p>
+            <p class="job-org">Omdena, <span>Remote</span></p>
+            <p class="job-desc">
+              Web-scraped road-accident data from news sources; cleaned,
+              preprocessed, visualized, and analyzed the data; and built an
+              LSTM-based time-series forecasting model.
+            </p>
+            <div class="job-tags">
+              <span class="job-tag">Python</span>
+              <span class="job-tag">LSTM</span>
+              <span class="job-tag">Data Analysis</span>
+            </div>
+          </div>
+
+        </div><!-- /job-timeline -->
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+      TECHNICAL SKILLS  (#skills)
+      TO ADD A GROUP: copy one <div class="skill-group"> block.
+      TO ADD A SKILL: add a <span class="skill-chip"> inside a group.
+    ============================================================ -->
+    <section id="skills" class="section fade-in" aria-labelledby="skills-heading">
+      <div class="container">
+        <p class="section-label">Toolbox</p>
+        <h2 class="section-heading" id="skills-heading">Technical Skills</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+
+        <div class="skill-group">
+          <p class="skill-group-label">Programming &amp; Libraries</p>
+          <div class="skill-chips">
+            <span class="skill-chip">Python</span>
+            <span class="skill-chip">PyTorch</span>
+            <span class="skill-chip">TensorFlow</span>
+            <span class="skill-chip">Scikit-Learn</span>
+            <span class="skill-chip">NumPy</span>
+            <span class="skill-chip">Pandas</span>
+            <span class="skill-chip">Matplotlib</span>
+            <span class="skill-chip">Plotly</span>
+            <span class="skill-chip">Seaborn</span>
+            <span class="skill-chip">MATLAB</span>
+            <span class="skill-chip">C</span>
+            <span class="skill-chip">LaTeX</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="skill-group-label">Software &amp; Tools</p>
+          <div class="skill-chips">
+            <span class="skill-chip">Microsoft Office</span>
+            <span class="skill-chip">Overleaf</span>
+            <span class="skill-chip">Draw.io</span>
+            <span class="skill-chip">RapidMiner</span>
+            <span class="skill-chip">WEKA</span>
+            <span class="skill-chip">COMSOL</span>
+            <span class="skill-chip">ADS</span>
+            <span class="skill-chip">CST</span>
+            <span class="skill-chip">Origin</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="skill-group-label">Languages</p>
+          <div class="skill-chips">
+            <span class="skill-chip">English — Proficient (IELTS 7.5)</span>
+            <span class="skill-chip">Bangla — Native</span>
+            <span class="skill-chip">Hindi — Conversational</span>
+            <span class="skill-chip">German — Beginner</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+      ★★★ HOBBIES SECTION  (#hobbies)  — NEW ★★★
+
+      This whole section showcases your personal interests.
+      It has five sub-sections, each clearly marked:
+        (A) Books    — books you read
+        (B) Movies   — movies you watch
+        (C) Football — teams you support
+        (D) Cricket  — teams you support
+        (E) Chess    — your chess stats / profiles
+
+      Each sub-section has its own "TO ADD..." note above it.
+      All content below is PLACEHOLDER — replace with your own.
+    ============================================================ -->
+    <section id="hobbies" class="section fade-in" aria-labelledby="hobbies-heading">
+      <div class="container">
+        <p class="section-label">Beyond research</p>
+        <h2 class="section-heading" id="hobbies-heading">Hobbies &amp; Interests</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+
+
+        <!-- ===== (A) BOOKS =====
+          TO ADD A BOOK: copy one <div class="book-card"> block.
+          - Change the spine color with style="--spine:#hexcolor"
+          - .book-title  = book name
+          - .book-author = author
+          - .book-tag    = optional label (delete if not needed)
+        ===== -->
+        <h3 class="subsection-title"><i class="fas fa-book-open"></i> Books I Read</h3>
+        <div class="book-shelf">
+
+          <div class="book-card" style="--spine:#448EE4">
+            <p class="book-title">Sapiens</p>
+            <p class="book-author">Yuval Noah Harari</p>
+            <span class="book-tag">Favourite</span>
+          </div>
+
+          <div class="book-card" style="--spine:#c8763e">
+            <p class="book-title">Deep Learning</p>
+            <p class="book-author">Goodfellow, Bengio &amp; Courville</p>
+            <span class="book-tag">Technical</span>
+          </div>
+
+          <div class="book-card" style="--spine:#3b6ea5">
+            <p class="book-title">Thinking, Fast and Slow</p>
+            <p class="book-author">Daniel Kahneman</p>
+          </div>
+
+          <div class="book-card" style="--spine:#8a4f9e">
+            <p class="book-title">The Alchemist</p>
+            <p class="book-author">Paulo Coelho</p>
+          </div>
+
+          <div class="book-card" style="--spine:#a53b3b">
+            <p class="book-title">Currently Reading…</p>
+            <p class="book-author">Add your book here</p>
+            <span class="book-tag">Reading now</span>
+          </div>
+
+        </div><!-- /book-shelf -->
+
+
+        <!-- ===== (B) MOVIES =====
+          TO ADD A MOVIE: copy one <div class="movie-card"> block.
+          The poster is a colored box with an icon by default.
+          To use a real poster image, replace the inner content of
+          .movie-poster, OR add a background image to it like:
+            <div class="movie-poster" style="background-image:url('images/inception.jpg');background-size:cover"></div>
+        ===== -->
+        <h3 class="subsection-title"><i class="fas fa-film"></i> Movies I Watch</h3>
+        <div class="movie-grid">
+
+          <div class="movie-card">
+            <div class="movie-poster"><i class="fas fa-clapperboard" aria-hidden="true"></i></div>
+            <p class="movie-title">Inception</p>
+            <p class="movie-meta">2010 · Sci-Fi</p>
+          </div>
+
+          <div class="movie-card">
+            <div class="movie-poster"><i class="fas fa-clapperboard" aria-hidden="true"></i></div>
+            <p class="movie-title">Interstellar</p>
+            <p class="movie-meta">2014 · Sci-Fi</p>
+          </div>
+
+          <div class="movie-card">
+            <div class="movie-poster"><i class="fas fa-clapperboard" aria-hidden="true"></i></div>
+            <p class="movie-title">The Dark Knight</p>
+            <p class="movie-meta">2008 · Action</p>
+          </div>
+
+          <div class="movie-card">
+            <div class="movie-poster"><i class="fas fa-clapperboard" aria-hidden="true"></i></div>
+            <p class="movie-title">Parasite</p>
+            <p class="movie-meta">2019 · Thriller</p>
+          </div>
+
+          <div class="movie-card">
+            <div class="movie-poster"><i class="fas fa-plus" aria-hidden="true"></i></div>
+            <p class="movie-title">Add a movie</p>
+            <p class="movie-meta">Year · Genre</p>
+          </div>
+
+        </div><!-- /movie-grid -->
+
+
+        <!-- ===== (C) FOOTBALL =====
+          TO ADD A TEAM: copy one <div class="team-card"> block.
+          - .team-crest holds 2–3 initials; color it with style="--crest:#hexcolor"
+            (To use a real logo, replace the initials with <img src="...">)
+          - .team-name = team name
+          - .team-note = club / country / why you support them
+        ===== -->
+        <h3 class="subsection-title"><i class="fas fa-futbol"></i> Football Teams I Support</h3>
+        <div class="team-row">
+
+          <div class="team-card">
+            <div class="team-crest" style="--crest:#c8102e">FCB</div>
+            <div>
+              <p class="team-name">FC Barcelona</p>
+              <p class="team-note">La Liga · Club</p>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-crest" style="--crest:#75aadb">ARG</div>
+            <div>
+              <p class="team-name">Argentina</p>
+              <p class="team-note">National team</p>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-crest" style="--crest:#448EE4">ADD</div>
+            <div>
+              <p class="team-name">Add a team</p>
+              <p class="team-note">League · Club</p>
+            </div>
+          </div>
+
+        </div><!-- /team-row -->
+
+
+        <!-- ===== (D) CRICKET =====
+          Same structure as football. Copy a .team-card to add more.
+        ===== -->
+        <h3 class="subsection-title"><i class="fas fa-baseball-bat-ball"></i> Cricket Teams I Support</h3>
+        <div class="team-row">
+
+          <div class="team-card">
+            <div class="team-crest" style="--crest:#006a4e">BAN</div>
+            <div>
+              <p class="team-name">Bangladesh</p>
+              <p class="team-note">National team</p>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-crest" style="--crest:#1f4e9b">YBT</div>
+            <div>
+              <p class="team-name">Your BPL Team</p>
+              <p class="team-note">BPL · Franchise</p>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-crest" style="--crest:#c8763e">ADD</div>
+            <div>
+              <p class="team-name">Add a team</p>
+              <p class="team-note">League · Team</p>
+            </div>
+          </div>
+
+        </div><!-- /team-row -->
+
+
+        <!-- ===== (E) CHESS =====
+          TO EDIT: change the four stat tiles (rating numbers / labels)
+          and the profile links below them.
+          Replace the # in href="#" with your Chess.com / Lichess URLs.
+        ===== -->
+        <h3 class="subsection-title"><i class="fas fa-chess-knight"></i> Chess</h3>
+        <div class="chess-wrap">
+
+          <!-- Left: stat tiles -->
+          <div class="chess-stats">
+            <div class="chess-stat">
+              <div class="chess-stat-num">1450</div>     <!-- EDIT your rating -->
+              <div class="chess-stat-label">Rapid</div>
+            </div>
+            <div class="chess-stat">
+              <div class="chess-stat-num">1380</div>     <!-- EDIT your rating -->
+              <div class="chess-stat-label">Blitz</div>
+            </div>
+            <div class="chess-stat">
+              <div class="chess-stat-num">500+</div>     <!-- EDIT games played -->
+              <div class="chess-stat-label">Games</div>
+            </div>
+            <div class="chess-stat">
+              <div class="chess-stat-num">e4</div>       <!-- EDIT favourite opening -->
+              <div class="chess-stat-label">Fav. Opening</div>
+            </div>
+          </div>
+
+          <!-- Right: blurb + profile links -->
+          <div>
+            <p class="chess-text">
+              Chess keeps my mind sharp between research sessions. I enjoy
+              tactical play and studying classic games. Always up for a match!
+            </p>
+            <div class="chess-links">
+              <!-- EDIT: paste your real profile URLs -->
+              <a href="#" class="chess-link" target="_blank" rel="noopener">
+                <i class="fas fa-chess" aria-hidden="true"></i> Chess.com
+              </a>
+              <a href="#" class="chess-link" target="_blank" rel="noopener">
+                <i class="fas fa-chess-board" aria-hidden="true"></i> Lichess
+              </a>
+            </div>
+          </div>
+
+        </div><!-- /chess-wrap -->
+
+      </div><!-- /container -->
+    </section><!-- /hobbies -->
+
+
+    <!-- ============================================================
+      CONTACT  (#contact)
+      EDIT: email, phone, location values.
+    ============================================================ -->
+    <section id="contact" class="section fade-in" aria-labelledby="contact-heading">
+      <div class="container">
+        <p class="section-label">Get in touch</p>
+        <h2 class="section-heading" id="contact-heading">Contact</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+
+        <div class="contact-box">
+          <div>
+            <h3 class="contact-heading">Let's collaborate<br/>or connect.</h3>
+            <p class="contact-sub">I'm always open to research discussions, collaboration opportunities, and PhD inquiries. Feel free to reach out through any channel.</p>
+          </div>
+
+          <ul class="contact-list" aria-label="Contact details">
+            <li class="contact-item">
+              <div class="contact-item-icon" aria-hidden="true"><i class="fas fa-envelope"></i></div>
+              <div>
+                <p class="contact-item-label">Email</p>
+                <p class="contact-item-value"><a href="mailto:naosher.mustakim@gmail.com">naosher.mustakim@gmail.com</a></p>
+              </div>
+            </li>
+            <li class="contact-item">
+              <div class="contact-item-icon" aria-hidden="true"><i class="fas fa-phone"></i></div>
+              <div>
+                <p class="contact-item-label">Phone</p>
+                <p class="contact-item-value"><a href="tel:+8801644614303">+880 1644 614303</a></p>
+              </div>
+            </li>
+            <li class="contact-item">
+              <div class="contact-item-icon" aria-hidden="true"><i class="fas fa-location-dot"></i></div>
+              <div>
+                <p class="contact-item-label">Location</p>
+                <p class="contact-item-value">Chattogram, Bangladesh</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ============================================================
+    FOOTER — change the name in the copyright line.
+  ============================================================ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <span>© <span id="year"></span> Naosher Mustakim</span>
+        <span>Chattogram, Bangladesh</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+    JAVASCRIPT (minimal, no external libraries)
+    1. Year       — auto-fills current year in the footer
+    2. Mobile nav — opens/closes the menu on small screens
+    3. Active link — highlights nav link for the section in view
+    4. Fade-in    — animates sections as they scroll into view
+  ============================================================ -->
+  <script>
+    // 1. Auto-fill the current year in the footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 2. Mobile navigation toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+    navToggle.addEventListener('click', function () {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', false);
+      });
+    });
+
+    // 3. Highlight active nav link based on the section in view
+    const sections = document.querySelectorAll('section[id]');
+    const navAnchors = document.querySelectorAll('.navbar-links a');
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navAnchors.forEach(a => a.classList.remove('active'));
+          const activeLink = document.querySelector(`.navbar-links a[href="#${entry.target.id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, { threshold: 0.35 });
+    sections.forEach(s => sectionObserver.observe(s));
+
+    // 4. Fade-in sections on scroll
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const fadeObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);   // animate once
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => fadeObserver.observe(el));
+  </script>
+
+</body>
+</html>
